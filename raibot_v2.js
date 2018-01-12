@@ -1,6 +1,7 @@
-//variables
+//edit this variable to change the base bet value.
 var baseBet = 12;
 
+//do not edit variables below this.
 var username = engine.getUsername();
 var startBalance = engine.getBalance();
 
@@ -25,29 +26,40 @@ engine.on('game_starting', function(info) {
 	currentGameID = info.game_id;
 	console.log('---------------------');
 	console.log('[Raibot] Game #' + currentGameID + ' started.');
+	//check the result of the last game
 	lastResult = engine.lastGamePlay();
 
 	if(lastResult == 'LOST' || lastResult == 'NOT_PLAYED') {
+		
+		//if the result of the last game was 'LOST' or 'NOT_PLAYED', set win streak back to 0.
 		winStreak = 0;
 		console.log('[Raibot] Current Win Streak: 0');
 	} else {
+		
+		//if last game was won increase win streak by 1.
 		winStreak++;
 		console.log('[Raibot] Last Result: ' + lastResult + ' ' + 'Current Win Streak: ' + winStreak);
 	}
 	if(winStreak == 9) {
+
+		//if win streak equals to 9, set takeBreak to true.
 		console.log('[Raibot] Skipping this round.');
 		takeBreak = true;
 	}
 
 	if(takeBreak == false) {
 
+		//if the result of the last game was 'LOST', increase your last bet by 2.
 		if(lastResult == 'LOST' && !firstGame) {
 			currentBet = lastBet * 2;
 
 		} else {
+
+			//if last game was won, reset bet to base bet.
 			currentBet = baseBet;
 		}
 
+		//set last result to 'LOST', value will be updated to 'WON' if the cashed out even occurs.
 		firstGame = false;
 		lastResult = 'LOST';
 
@@ -62,6 +74,8 @@ engine.on('game_starting', function(info) {
 engine.on('cashed_out', function(data) {
 	if(data.username == engine.getUsername()) {
 		console.log('[Raibot] Successfully cashed out at ' + (data.stopped_at / 100) + 'x');
+		
+		//indicates that this game was won.
 		lastResult = 'WON';
 	}
 });

@@ -32,7 +32,7 @@ engine.on('game_starting', function(info) {
 		console.log('[Raibot] Current Win Streak: 0');
 	} else {
 		winStreak++;
-		console.log('[Raibot Current Win Streak: ' + winStreak);
+		console.log('[Raibot] Last Result: ' + lastResult + ' ' + Current Win Streak: ' ' + winStreak);
 	}
 	if(winStreak == 9) {
 		console.log('[Raibot] Skipping this round.');

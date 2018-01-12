@@ -1,13 +1,12 @@
 //variables
-var baseBet = 1;
-var multiplier = 2;
+var baseBet = 12;
 
 var username = engine.getUsername();
 var startBalance = engine.getBalance();
 
 var currentGameID = -1;
 var currentBet = baseBet;
-var currentMultipler = multiplier;
+var currentMultipler = 2;
 
 var firstGame = true;
 var date = new Date();
@@ -52,20 +51,19 @@ engine.on('game_starting', function(info) {
 		firstGame = false;
 		lastResult = 'LOST';
 
-		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at ' + multiplier + 'x');
+		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at 2x');
 		engine.placeBet(currentBet * 100, 200, false);
 		lastBet = currentBet;
 	};
 
+	takeBreak = false;
 });
 
 engine.on('cashed_out', function(data) {
-
 	if(data.username == engine.getUsername()) {
 		console.log('[Raibot] Successfully cashed out at ' + (data.stopped_at / 100) + 'x');
 		lastResult = 'WON';
 	}
-
 });
 
 engine.on('game_crash', function(data) {

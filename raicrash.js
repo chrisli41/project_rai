@@ -51,7 +51,7 @@ engine.on('game_starting', function(info) {
         if (LastResult == 'LOST' && !FirstGame) { // Check if you lost the last game
                 
                 lostStreak++;
-                console.log('lost' + lostStreak);
+                console.log('[BustaBot] Lost Previous Bet, Lost #' + lostStreak);
 
                 SessionLost = SessionLost + CurrentBet;
                 CurrentBet = LastBet * 4;

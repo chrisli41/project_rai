@@ -33,12 +33,12 @@ engine.on('game_starting', function(info) {
 		
 		//if the result of the last game was 'LOST' or 'NOT_PLAYED', set win streak back to 0.
 		winStreak = 0;
-		console.log('[Raibot] Current Win Streak: 0');
+		console.log('[Raibot] Last Result: ' + lastResult + ', Current Win Streak: ' + winStreak);
 	} else {
 		
 		//if last game was won increase win streak by 1.
 		winStreak++;
-		console.log('[Raibot] Last Result: ' + lastResult + ' ' + 'Current Win Streak: ' + winStreak);
+		console.log('[Raibot] Last Result: ' + lastResult + ', ' + 'Current Win Streak: ' + winStreak);
 	}
 	if(winStreak == 9) {
 

@@ -51,13 +51,12 @@ engine.on('game_starting', function(info) {
 		//if last game was won increase win streak by 1.
 		winStreak++;
 		console.log('[Raibot] Last Result: ' + lastResult + ', ' + 'Current Win Streak: ' + winStreak);
-	};
 
-	if(lastResult == 'WON') {
 		var n = convertN(winStreak);
+		var test = probability(n);
+		console.log('probability check: ' + test);
 
-		if(probability(n)) {
-
+		if(test) {
 		//if probability yields true
 			console.log('[Raibot] ' + winStreak + ' probability reached, skipping this round.');
 			takeBreak = true;

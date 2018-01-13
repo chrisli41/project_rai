@@ -1,6 +1,9 @@
 //edit this variable to change the base bet value.
 var baseBet = 12;
 
+//game will take a break after this many wins in a row.
+var streakToBreak = 8;
+
 //do not edit variables below this.
 var username = engine.getUsername();
 var startBalance = engine.getBalance();
@@ -31,7 +34,7 @@ engine.on('game_starting', function(info) {
 
 	if(lastResult == 'LOST' || lastResult == 'NOT_PLAYED') {
 		
-		//if the result of the last game was 'LOST' or 'NOT_PLAYED', set win streak back to 0.
+		//if the result of the last game was 'LOST' or 'NOT_PLAYED', reset win streak back to 0.
 		winStreak = 0;
 		console.log('[Raibot] Last Result: ' + lastResult + ', Current Win Streak: ' + winStreak);
 	} else {
@@ -40,7 +43,7 @@ engine.on('game_starting', function(info) {
 		winStreak++;
 		console.log('[Raibot] Last Result: ' + lastResult + ', ' + 'Current Win Streak: ' + winStreak);
 	}
-	if(winStreak == 9) {
+	if(winStreak == streakToBreak) {
 
 		//if win streak equals to 9, set takeBreak to true.
 		console.log('[Raibot] Skipping this round.');

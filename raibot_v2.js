@@ -46,7 +46,7 @@ engine.on('game_starting', function(info) {
 	if(winStreak == streakToBreak) {
 
 		//if win streak equals to 9, set takeBreak to true.
-		console.log('[Raibot] Skipping this round.');
+		console.log('[Raibot] ' + winStreak + ' reached, skipping this round.');
 		takeBreak = true;
 	}
 

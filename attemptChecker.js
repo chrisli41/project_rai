@@ -28,7 +28,7 @@ function prob(chance, number) {
 
 		probab = Math.pow(chance, i) * 100;
 
-		console.log(i + ' Red: ' + probab + '%');
+		console.log(i + ' Red: ' + probab.toFixed(2) + '%');
 
 	};
 };

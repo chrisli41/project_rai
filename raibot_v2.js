@@ -18,7 +18,7 @@ var takeBreak = false;
 var lastBet = 0;
 var winStreak = 0;
 
-var probs = { '0': 0, '1': .10, '2': .20, '3': .30, '4': .40, '5': .50, '6': .60, '7': .70, '8': .80, '9': .90, '10': .90 };
+var probs = { '0': 0, '1': .05, '2': .10, '3': .15, '4': .20, '5': .25, '6': .30, '7': .35, '8': .50, '9': .80, '10': .90 };
 
 var convertN = function(streak) {
 	streak = streak.toString();
@@ -53,12 +53,10 @@ engine.on('game_starting', function(info) {
 		console.log('[Raibot] Last Result: ' + lastResult + ', ' + 'Current Win Streak: ' + winStreak);
 
 		var n = convertN(winStreak);
-		var test = probability(n);
-		console.log('probability check: ' + test);
 
-		if(test) {
+		if(probability(n)) {
 		//if probability yields true
-			console.log('[Raibot] ' + winStreak + ' probability reached, skipping this round.');
+			console.log('[Raibot] Skipping round after ' + winStreak + ' win streak.');
 			takeBreak = true;
 		}
 	};

@@ -21,6 +21,18 @@ var takeBreak = false;
 var lastBet = 0;
 var winStreak = 0;
 
+var probs = { '0': 0, '1': .10, '2': .10, '3': .20, '4': .30, '5': .50, '6': .60, '7': .65, '8': .80, '9': .80, '10': .90 };
+
+var convertN = function(streak) {
+	streak = streak.toString();
+	return probs[streak] == undefined ? .95 : probs[streak];
+
+};
+
+var probability = function(n) {
+	return !!n && Math.random() <= n;
+};
+
 console.log('[RaiBot] Welcome ' + username);
 console.log('[RaiBot] Starting Balance: ' + (startBalance / 100).toFixed(2) + ' mXRB');
 
@@ -43,10 +55,13 @@ engine.on('game_starting', function(info) {
 		winStreak++;
 		console.log('[Raibot] Last Result: ' + lastResult + ', ' + 'Current Win Streak: ' + winStreak);
 	}
-	if(winStreak == streakToBreak) {
 
-		//if win streak equals to 9, set takeBreak to true.
-		console.log('[Raibot] ' + winStreak + ' reached, skipping this round.');
+	var n = convertN(winStreak);
+
+	if(probability(n)) {
+
+		//if probability yields true
+		console.log('[Raibot] ' + winStreak + ' probability reached, skipping this round.');
 		takeBreak = true;
 	}
 
@@ -93,5 +108,30 @@ engine.on('game_crash', function(data) {
 		takeBreak = false;
 	};
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

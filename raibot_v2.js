@@ -1,9 +1,6 @@
 //edit this variable to change the base bet value.
 var baseBet = 12;
 
-//game will take a break after this many wins in a row.
-var streakToBreak = 8;
-
 //do not edit variables below this.
 var username = engine.getUsername();
 var startBalance = engine.getBalance();
@@ -21,7 +18,7 @@ var takeBreak = false;
 var lastBet = 0;
 var winStreak = 0;
 
-var probs = { '0': 0, '1': .10, '2': .10, '3': .20, '4': .30, '5': .50, '6': .60, '7': .65, '8': .80, '9': .80, '10': .90 };
+var probs = { '0': 0, '1': .10, '2': .20, '3': .30, '4': .40, '5': .50, '6': .60, '7': .70, '8': .80, '9': .90, '10': .90 };
 
 var convertN = function(streak) {
 	streak = streak.toString();

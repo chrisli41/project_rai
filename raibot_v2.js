@@ -7,7 +7,6 @@ var startBalance = engine.getBalance();
 
 var currentGameID = -1;
 var currentBet = baseBet;
-var currentMultipler = 2;
 
 var firstGame = true;
 var date = new Date();
@@ -18,9 +17,9 @@ var takeBreak = false;
 var lastBet = 0;
 var winStreak = 0;
 
-var probs = { '0': 0, '1': .05, '2': .10, '3': .15, '4': .20, '5': .25, '6': .30, '7': .35, '8': .50, '9': .80, '10': .90 };
+var probs = { '1': .05, '2': .10, '3': .15, '4': .20, '5': .25, '6': .30, '7': .35, '8': .50, '9': .80, '10': .90 };
 
-var convertN = function(streak) {
+var normalize = function(streak) {
 	streak = streak.toString();
 	return probs[streak] == undefined ? .95 : probs[streak];
 
@@ -52,7 +51,7 @@ engine.on('game_starting', function(info) {
 		winStreak++;
 		console.log('[Raibot] Last Result: ' + lastResult + ', ' + 'Current Win Streak: ' + winStreak);
 
-		var n = convertN(winStreak);
+		var n = normalize(winStreak);
 
 		if(probability(n)) {
 		//if probability yields true

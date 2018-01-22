@@ -1,6 +1,5 @@
 //edit this variable to change the base bet value.
 var baseBet = 12;
-var baseMultiplier = 1.08;
 
 //do not edit variables below this.
 var username = engine.getUsername();
@@ -8,8 +7,6 @@ var startBalance = engine.getBalance();
 
 var currentGameID = -1;
 var currentBet = baseBet;
-var currentMultiplier = baseMultiplier;
-var lastMultiplier = baseMultiplier;
 
 var firstGame = true;
 var date = new Date();
@@ -67,20 +64,12 @@ engine.on('game_starting', function(info) {
 
 		//if the result of the last game was 'LOST', increase your last bet by 2.
 		if(lastResult == 'LOST' && !firstGame) {
-			if(lastMultiplier == 1.08) {
-				currentBet = lastBet * 4;
-				currentMultiplier = 1.25;
-			}
-			if(lastMultiplier = 1.25) {
-				currentBet = lastBet * 5;
-				currentMultiplier = 1.25;
-			}
+			currentBet = lastBet * 2;
 
 		} else {
 
 			//if last game was won, reset bet to base bet.
 			currentBet = baseBet;
-			currentMultiplier = baseMultiplier;
 		}
 
 		//set last result to 'LOST', value will be updated to 'WON' if the cashed out even occurs.
@@ -88,9 +77,8 @@ engine.on('game_starting', function(info) {
 		lastResult = 'LOST';
 
 		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at 2x');
-		engine.placeBet(currentBet * 100, (currentMultiplier * 100), false);
+		engine.placeBet(currentBet * 100, 200, false);
 		lastBet = currentBet;
-		lastMultiplier = currentMultiplier;
 	};
 
 	takeBreak = false;
@@ -115,3 +103,30 @@ engine.on('game_crash', function(data) {
 		takeBreak = false;
 	};
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

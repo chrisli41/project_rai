@@ -1,5 +1,5 @@
 //edit this variable to change the base bet value.
-var baseBet = 12;
+var baseBet = 1;
 
 //do not edit variables below this.
 var username = engine.getUsername();
@@ -64,7 +64,13 @@ engine.on('game_starting', function(info) {
 
 		//if the result of the last game was 'LOST', increase your last bet by 2.
 		if(lastResult == 'LOST' && !firstGame) {
-			currentBet = lastBet * 2;
+			if(lastBet == 1) {
+				currentBet = 2;
+			} else if (lastBet == 2) {
+				currentBet = 3;
+			} else {
+				currentBet = lastBet * 2;
+			}
 
 		} else {
 

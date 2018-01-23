@@ -9,6 +9,7 @@ var startBalance = engine.getBalance();
 
 var currentGameID = -1;
 var currentBet = baseBet1x;
+
 var currentMultiplier = baseMultiplier;
 var lastMultiplier = baseMultiplier;
 
@@ -71,12 +72,8 @@ engine.on('game_starting', function(info) {
 
 		//if the result of the last game was 'LOST', increase your last bet by 2.
 		if(lastResult == 'LOST' && !firstGame) {
-			
-			if(gameMode == 1) {
-				currentBet = lastBet * 2;
-				currentMultiplier = 2;
-			}
 
+			//game mode = 1x
 			if(gameMode == 0) {
 				if(lastMultiplier == 1.08) {
 					currentBet = lastBet * 4;
@@ -86,11 +83,19 @@ engine.on('game_starting', function(info) {
 					currentBet = lastBet * 5;
 					currentMultiplier = 1.25;
 				}
-			}
+			};
+
+			//game mode = 2x
+			if(gameMode == 1) {
+				currentBet = lastBet * 2;
+				currentMultiplier = 2;
+			};
 
 		} else {
 
 			//if last game was won, reset bet to base bet.
+
+			gamesWon++;
 
 			if(gamesWon > 10) {
 				gameMode = gameMode > 0 ? 0 : 1;
@@ -99,15 +104,17 @@ engine.on('game_starting', function(info) {
 				gamesWon = 0;
 			};
 
+			//game mode = 1x
 			if(gameMode == 0) {
 				currentMultiplier = baseMultiplier;
 				currentBet = baseBet1x;
-			} else {
+			}  
+
+			//game mode = 2x
+			if(gameMode == 1) {
 				currentMultiplier = 2;
 				currentBet = baseBet2x;
 			}
-
-			gamesWon++;
 		}
 
 		//set last result to 'LOST', value will be updated to 'WON' if the cashed out event occurs.

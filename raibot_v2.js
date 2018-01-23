@@ -15,18 +15,9 @@ var firstGame = true;
 var date = new Date();
 var startTime = date.getTime();
 var lastResult = 'WON';
-var takeBreak = false;
 
 var lastBet = 0;
-var winStreak = 0;
 
-var probs = { '1': .05, '2': .10, '3': .15, '4': .20, '5': .25, '6': .30, '7': .35, '8': .50, '9': .80, '10': .90 };
-
-var normalize = function(streak) {
-	streak = streak.toString();
-	return probs[streak] == undefined ? .95 : probs[streak];
-
-};
 
 var probability = function(n) {
 	return !!n && Math.random() <= n;
@@ -43,26 +34,6 @@ engine.on('game_starting', function(info) {
 	//check the result of the last game
 	lastResult = engine.lastGamePlay();
 
-	if(lastResult == 'LOST' || lastResult == 'NOT_PLAYED') {
-		
-		//if the result of the last game was 'LOST' or 'NOT_PLAYED', reset win streak back to 0.
-		winStreak = 0;
-		console.log('[Raibot] Last Result: ' + lastResult + ', Current Win Streak: ' + winStreak);
-	} else {
-		
-		//if last game was won increase win streak by 1.
-		winStreak++;
-		console.log('[Raibot] Last Result: ' + lastResult + ', ' + 'Current Win Streak: ' + winStreak);
-
-		var n = normalize(winStreak);
-
-		if(probability(n)) {
-		//if probability yields true
-			console.log('[Raibot] Skipping round after ' + winStreak + ' win streak.');
-			takeBreak = true;
-		}
-	};
-
 	if(takeBreak == false) {
 
 		//if the result of the last game was 'LOST', increase your last bet by 2.
@@ -71,7 +42,7 @@ engine.on('game_starting', function(info) {
 				currentBet = lastBet * 4;
 				currentMultiplier = 1.25;
 			}
-			if(lastMultiplier = 1.25) {
+			else if(lastMultiplier = 1.25) {
 				currentBet = lastBet * 5;
 				currentMultiplier = 1.25;
 			}
@@ -87,7 +58,7 @@ engine.on('game_starting', function(info) {
 		firstGame = false;
 		lastResult = 'LOST';
 
-		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at 2x');
+		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at ' + currentMultiplier);
 		engine.placeBet(currentBet * 100, (currentMultiplier * 100), false);
 		lastBet = currentBet;
 		lastMultiplier = currentMultiplier;

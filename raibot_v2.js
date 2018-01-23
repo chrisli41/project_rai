@@ -1,5 +1,6 @@
 //edit this variable to change the base bet value.
-var baseBet = 12;
+var baseBet2x = 1;
+var baseBet1x = 10;
 var baseMultiplier = 1.08;
 
 //do not edit variables below this.
@@ -7,9 +8,12 @@ var username = engine.getUsername();
 var startBalance = engine.getBalance();
 
 var currentGameID = -1;
-var currentBet = baseBet;
+var currentBet = baseBet1x;
 var currentMultiplier = baseMultiplier;
 var lastMultiplier = baseMultiplier;
+
+var gameMode = 0;
+var gamesWon = 0;
 
 var firstGame = true;
 var date = new Date();
@@ -67,27 +71,50 @@ engine.on('game_starting', function(info) {
 
 		//if the result of the last game was 'LOST', increase your last bet by 2.
 		if(lastResult == 'LOST' && !firstGame) {
-			if(lastMultiplier == 1.08) {
-				currentBet = lastBet * 4;
-				currentMultiplier = 1.25;
+			
+			if(gameMode == 1) {
+				currentBet = lastBet * 2;
+				currentMultiplier = 2;
 			}
-			if(lastMultiplier = 1.25) {
-				currentBet = lastBet * 5;
-				currentMultiplier = 1.25;
+
+			if(gameMode == 0) {
+				if(lastMultiplier == 1.08) {
+					currentBet = lastBet * 4;
+					currentMultiplier = 1.25;
+				}
+				else if(lastMultiplier = 1.25) {
+					currentBet = lastBet * 5;
+					currentMultiplier = 1.25;
+				}
 			}
 
 		} else {
 
 			//if last game was won, reset bet to base bet.
-			currentBet = baseBet;
-			currentMultiplier = baseMultiplier;
+
+			if(gamesWon > 10) {
+				gameMode = gameMode > 0 ? 0 : 1;
+				gameLabel = gameMode == 0 ? '1x' : '2x';
+				console.log('[Raibot] SWITCHING GAME MODE TO: ' + gameLabel);
+				gamesWon = 0;
+			};
+
+			if(gameMode == 0) {
+				currentMultiplier = baseMultiplier;
+				currentBet = baseBet1x;
+			} else {
+				currentMultiplier = 2;
+				currentBet = baseBet2x;
+			}
+
+			gamesWon++;
 		}
 
-		//set last result to 'LOST', value will be updated to 'WON' if the cashed out even occurs.
+		//set last result to 'LOST', value will be updated to 'WON' if the cashed out event occurs.
 		firstGame = false;
 		lastResult = 'LOST';
 
-		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at 2x');
+		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at ' + currentMultiplier + 'x');
 		engine.placeBet(currentBet * 100, (currentMultiplier * 100), false);
 		lastBet = currentBet;
 		lastMultiplier = currentMultiplier;

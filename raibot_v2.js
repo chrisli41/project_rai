@@ -1,5 +1,5 @@
 //edit this variable to change the base bet value.
-var baseBet = 12;
+var baseBet = 199;
 var baseMultiplier = 1.08;
 
 //do not edit variables below this.
@@ -19,11 +19,6 @@ var lastResult = 'WON';
 
 var lastBet = 0;
 
-
-var probability = function(n) {
-	return !!n && Math.random() <= n;
-};
-
 console.log('[RaiBot] Welcome ' + username);
 console.log('[RaiBot] Starting Balance: ' + (startBalance / 100).toFixed(2) + ' mXRB');
 
@@ -35,35 +30,30 @@ engine.on('game_starting', function(info) {
 	//check the result of the last game
 	lastResult = engine.lastGamePlay();
 
-	if(takeBreak == false) {
-
-		//if the result of the last game was 'LOST', increase your last bet by 2.
-		if(lastResult == 'LOST' && !firstGame) {
-			if(lastMultiplier == 1.08) {
-				currentBet = lastBet * 4;
-				currentMultiplier = 1.25;
-			}
-			else if(lastMultiplier = 1.25) {
-				currentBet = lastBet * 5;
-				currentMultiplier = 1.25;
-			}
-
-		} else {
-
-			//if last game was won, reset bet to base bet.
-			currentBet = baseBet;
-			currentMultiplier = baseMultiplier;
+	//if the result of the last game was 'LOST', increase your last bet by 2.
+	if(lastResult == 'LOST' && !firstGame) {
+		if(lastMultiplier == 1.08) {
+			currentBet = lastBet * 4;
+			currentMultiplier = 1.25;
 		}
+		else if(lastMultiplier = 1.25) {
+			currentBet = lastBet * 5;
+			currentMultiplier = 1.25;
+		}
+	} else {
+		//if last game was won, reset bet to base bet.
+		currentBet = baseBet;
+		currentMultiplier = baseMultiplier;
+		};
 
 		//set last result to 'LOST', value will be updated to 'WON' if the cashed out even occurs.
-		firstGame = false;
-		lastResult = 'LOST';
+	firstGame = false;
+	lastResult = 'LOST';
 
-		console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at ' + currentMultiplier);
-		engine.placeBet(currentBet * 100, (currentMultiplier * 100), false);
-		lastBet = currentBet;
-		lastMultiplier = currentMultiplier;
-	};
+	console.log('[Raibot] Betting ' + currentBet + ' mXRB, cashing out at ' + currentMultiplier);
+	engine.placeBet(currentBet * 100, (currentMultiplier * 100), false);
+	lastBet = currentBet;
+	lastMultiplier = currentMultiplier;
 
 	takeBreak = false;
 });

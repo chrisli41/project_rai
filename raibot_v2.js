@@ -10,6 +10,7 @@ var currentGameID = -1;
 var currentBet = baseBet;
 var currentMultiplier = baseMultiplier;
 var lastMultiplier = baseMultiplier;
+var takeBreak = false;
 
 var firstGame = true;
 var date = new Date();

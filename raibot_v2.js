@@ -32,7 +32,7 @@ engine.on('game_starting', function(info) {
 
 	//if the result of the last game was 'LOST', increase your last bet by 2.
 	if(lastResult == 'LOST' && !firstGame) {
-		if(lastMultiplier == 1.08) {
+		if(lastMultiplier == baseMultiplier) {
 			currentBet = lastBet * 4;
 			currentMultiplier = 1.25;
 		}

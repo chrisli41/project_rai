@@ -57,7 +57,11 @@ engine.on('game_starting', function(info) {
                 CurrentBet = LastBet * 4;
                 CurrentMultiplier = (SessionLost + CurrentBet) / CurrentBet;
                 CurrentMultiplier = Math.round(CurrentMultiplier * 100) / 100;
-
+                
+                if((CurrentBet * 100) > 25000) {
+                    engine.stop();
+                }
+            
                 if(MaxRecovery == false) {
                     if(PreviousMultiplier == 1.33) {
                         CurrentMultiplier = 1.25;
